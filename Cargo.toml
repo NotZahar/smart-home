@@ -3,4 +3,8 @@ name = "smart-home"
 version = "0.1.0"
 edition = "2024"
 
+[workspace]
+members = ["smart-home-lib"]
+
 [dependencies]
+smart-home-lib = { path = "./smart-home-lib" }
