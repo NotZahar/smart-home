@@ -32,11 +32,14 @@ done
 
 echo "Build type is ${BUILD_MODE}"
 
+echo ""
 echo "Running clippy ..."
 cargo clippy ${BUILD_FLAG} --all-targets --all-features -- -D warnings
 
+echo ""
 echo "Running tests ..."
 cargo test ${BUILD_FLAG} --all-features
 
+echo ""
 echo "Building ..."
 cargo build ${BUILD_FLAG} --jobs $(nproc)
