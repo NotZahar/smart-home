@@ -37,6 +37,10 @@ echo "Running clippy ..."
 cargo clippy ${BUILD_FLAG} --all-targets --all-features -- -D warnings
 
 echo ""
+echo "Checking formatting ..."
+cargo fmt --check
+
+echo ""
 echo "Running tests ..."
 cargo test ${BUILD_FLAG} --all-features
 

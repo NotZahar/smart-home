@@ -32,7 +32,7 @@ done
 BINARY_FOLDER_PATH="/root/workspace/smart-home/target/$BUILD_MODE"
 
 if [[ ! -d "$BINARY_FOLDER_PATH" ]]; then
-	echo "Error: Binary not found at $BINARY_FOLDER_PATH"
+	echo "Error: binary not found at $BINARY_FOLDER_PATH"
 	exit 1
 fi
 
