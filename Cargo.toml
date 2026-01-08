@@ -3,8 +3,10 @@ name = "smart-home"
 version = "0.1.0"
 edition = "2024"
 
-[workspace]
-members = ["smart-home-lib"]
+[lib]
+name = "sh"
+path = "src/lib.rs"
 
-[dependencies]
-smart-home-lib = { path = "./smart-home-lib" }
+[[bin]]
+name = "smart-home"
+path = "src/bin/main.rs"
