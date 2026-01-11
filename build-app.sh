@@ -4,6 +4,7 @@ set -euo pipefail
 
 BUILD_MODE="debug"
 BUILD_FLAG=""
+REMOVE_TARGET=true
 
 while [[ $# -gt 0 ]]; do
 	case $1 in
@@ -17,10 +18,16 @@ while [[ $# -gt 0 ]]; do
 		BUILD_FLAG=""
 		shift
 		;;
+	-k | --keep-target)
+		REMOVE_TARGET=false
+		shift
+		;;
 	-h | --help)
 		echo "Usage: $0 [OPTIONS]"
 		echo "  -d, --debug     Build in debug mode (default)"
 		echo "  -r, --release   Build in release mode"
+		echo "  -k, --keep-target  Keep the target directory (don't clean before building)"
+		echo "  -h, --help      Show this help message"
 		exit 0
 		;;
 	*)
@@ -29,6 +36,10 @@ while [[ $# -gt 0 ]]; do
 		;;
 	esac
 done
+
+if $REMOVE_TARGET; then
+	rm -rf /root/workspace/smart-home/target
+fi
 
 echo "Build type is ${BUILD_MODE}"
 

@@ -10,3 +10,7 @@ path = "src/lib.rs"
 [[bin]]
 name = "smart-home"
 path = "src/bin/main.rs"
+
+[dependencies]
+rand = "0.9"
+num-traits = "0.2"
