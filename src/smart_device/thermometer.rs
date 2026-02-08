@@ -4,15 +4,19 @@ use crate::utils::random::{RandomGenerator, SimpleRandomGenerator};
 use crate::utils::trait_alias::{Number, RandomNumber};
 
 pub trait Thermometer<TemperatureT: Number> {
-    const DEFAULT_TEMPERATURE: TemperatureT;
-
-    fn new() -> Self;
+    fn new(
+        initial_temperature: TemperatureT,
+        min_temperature_offset: TemperatureT,
+        max_temperature_offset: TemperatureT,
+    ) -> Self;
 
     #[must_use]
     fn get_temperature(&mut self) -> TemperatureT;
 }
 
 pub struct CelsiusThermometer<TemperatureT: RandomNumber> {
+    min_temperature_offset: TemperatureT,
+    max_temperature_offset: TemperatureT,
     current_temperature: TemperatureT,
     random_offset_generator: SimpleRandomGenerator<TemperatureT>,
 }
@@ -20,22 +24,25 @@ pub struct CelsiusThermometer<TemperatureT: RandomNumber> {
 impl<TemperatureT: RandomNumber + FromPrimitive> Thermometer<TemperatureT>
     for CelsiusThermometer<TemperatureT>
 {
-    const DEFAULT_TEMPERATURE: TemperatureT = TemperatureT::ZERO;
+    fn new(
+        initial_temperature: TemperatureT,
+        min_temperature_offset: TemperatureT,
+        max_temperature_offset: TemperatureT,
+    ) -> Self {
+        assert!(min_temperature_offset < max_temperature_offset);
 
-    fn new() -> Self {
         CelsiusThermometer {
-            current_temperature: Self::DEFAULT_TEMPERATURE,
+            min_temperature_offset,
+            max_temperature_offset,
+            current_temperature: initial_temperature,
             random_offset_generator: SimpleRandomGenerator::new(),
         }
     }
 
     fn get_temperature(&mut self) -> TemperatureT {
-        let min_offset = TemperatureT::from_f64(-10.0).unwrap();
-        let max_offset = TemperatureT::from_f64(10.0).unwrap();
-
         self.current_temperature
             + self
                 .random_offset_generator
-                .generate(min_offset, max_offset)
+                .generate(self.min_temperature_offset, self.max_temperature_offset)
     }
 }
