@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::RngExt;
 use std::marker::PhantomData;
 
 use crate::utils::trait_alias::RandomNumber;
