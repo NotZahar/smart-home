@@ -9,8 +9,15 @@ pub trait DeviceVisitor<T: RandomNumber> {
     fn visit_thermometer(&mut self, thermometer: &mut CelsiusThermometer<T>);
 }
 
+pub trait PrintVisitor {
+    #[must_use]
+    fn new(device_index: usize) -> Self;
+}
+
 pub struct PowerSocketTurnOffVisitor;
-pub struct PrintStateVisitor;
+pub struct PrintStateVisitor {
+    device_index: usize,
+}
 
 impl<T: RandomNumber + FromPrimitive> DeviceVisitor<T> for PowerSocketTurnOffVisitor {
     fn visit_socket(&mut self, socket: &mut PowerSocket<T>) {
@@ -22,13 +29,20 @@ impl<T: RandomNumber + FromPrimitive> DeviceVisitor<T> for PowerSocketTurnOffVis
     }
 }
 
+impl PrintVisitor for PrintStateVisitor {
+    fn new(device_index: usize) -> Self {
+        Self { device_index }
+    }
+}
+
 impl<T: RandomNumber + FromPrimitive + Debug> DeviceVisitor<T> for PrintStateVisitor {
     fn visit_socket(&mut self, socket: &mut PowerSocket<T>) {
         let state = socket.get_state();
         let power = socket.get_power();
 
         println!(
-            "state = {}, power = {:?}",
+            "Device {} (socket): state = {}, power = {:?}",
+            self.device_index,
             match state {
                 SocketState::ON => "ON",
                 SocketState::OFF => "OFF",
@@ -39,7 +53,11 @@ impl<T: RandomNumber + FromPrimitive + Debug> DeviceVisitor<T> for PrintStateVis
 
     fn visit_thermometer(&mut self, thermometer: &mut CelsiusThermometer<T>) {
         let temperature = thermometer.get_temperature();
-        println!("temperature = {:?}", temperature);
+
+        println!(
+            "Device {} (thermometer): temperature = {:?}",
+            self.device_index, temperature
+        );
     }
 }
 

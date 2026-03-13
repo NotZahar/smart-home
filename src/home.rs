@@ -37,6 +37,9 @@ impl<T: RandomNumber + FromPrimitive + Debug> Home<T> for SmartHome<T> {
     }
 
     fn print_report(&mut self) {
-        self.rooms.iter_mut().for_each(|room| room.print_report());
+        for (room_index, room) in self.rooms.iter_mut().enumerate() {
+            println!("Room {}:", room_index);
+            room.print_report();
+        }
     }
 }

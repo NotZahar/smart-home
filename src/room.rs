@@ -1,7 +1,7 @@
 use num_traits::FromPrimitive;
 use std::fmt::Debug;
 
-use crate::smart_device::{Device, PrintStateVisitor};
+use crate::smart_device::{Device, PrintStateVisitor, PrintVisitor};
 use crate::utils::trait_alias::RandomNumber;
 
 pub trait Room<T> {
@@ -35,9 +35,9 @@ impl<T: RandomNumber + FromPrimitive + Debug> Room<T> for SmartRoom<T> {
     }
 
     fn print_report(&mut self) {
-        let mut visitor = PrintStateVisitor;
-        self.devices
-            .iter_mut()
-            .for_each(|device| device.accept(&mut visitor));
+        for (device_index, device) in self.devices.iter_mut().enumerate() {
+            let mut visitor = PrintStateVisitor::new(device_index);
+            device.accept(&mut visitor);
+        }
     }
 }

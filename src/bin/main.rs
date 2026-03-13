@@ -19,7 +19,7 @@ fn main() {
 
     let mut home = SmartHome::new(vec![living_room, kitchen_room]);
 
-    println!("=== Initial home state ===");
+    println!("==== Initial state ====");
     home.print_report();
 
     let mut turn_off_visitor = PowerSocketTurnOffVisitor;
@@ -27,6 +27,6 @@ fn main() {
         .get_device_mut(0)
         .accept(&mut turn_off_visitor);
 
-    println!("\n=== After socket turn off home state ===");
+    println!("\n==== After socket turn off state ====");
     home.print_report();
 }
