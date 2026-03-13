@@ -4,6 +4,7 @@ use crate::utils::random::{RandomGenerator, SimpleRandomGenerator};
 use crate::utils::trait_alias::{Number, RandomNumber};
 
 pub trait Thermometer<TemperatureT: Number> {
+    #[must_use]
     fn new(
         initial_temperature: TemperatureT,
         min_temperature_offset: TemperatureT,

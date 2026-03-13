@@ -12,6 +12,7 @@ pub enum SocketState {
 pub trait Socket<PowerT: Number> {
     const DEFAULT_INACTIVE_POWER: PowerT;
 
+    #[must_use]
     fn new(default_active_power: PowerT, max_power_offset: PowerT) -> Self;
 
     fn turn_on(&mut self);
